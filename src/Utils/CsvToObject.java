@@ -31,54 +31,62 @@ public class CsvToObject {
         return lines;
     }
     public static List<Acidente> retornaAcidentes(String[] lines){
-        List<Acidente> acidentes = new ArrayList<Acidente>();
-        for(String line : lines){
-            Acidente acidente = new Acidente();
-            String[] campos = line.split(";");
-
-            acidente.setLogradouro(campos[0].substring(0,campos[0].indexOf(" ")));
-            acidente.setEndereco(campos[0].substring(campos[0].indexOf(" ")+1));
-            String dataHora = campos[2].replaceAll("\\D", "").replaceAll(" ", "").trim();
-            System.out.println(dataHora);
-
-            if(dataHora.length() == 12){
-                acidente.setDataHora(LocalDateTime.of(
-                    Integer.parseInt(campos[2].substring(0,4)),
-                    Integer.parseInt(campos[2].substring(4,6)),
-                    Integer.parseInt(campos[2].substring(6,8)),
-                    Integer.parseInt(campos[2].substring(8,10)),
-                    Integer.parseInt(campos[2].substring(10)))
-                );
+        List<Acidente> acidentes = new ArrayList<>();
+        for (String line : lines) {
+            if(line != null) {
+                String[] campos = line.split(";");
+                if (campos[0].length() > 1) {
+                    Acidente acidente = new Acidente();
+                    acidente.setLogradouro(campos[0].substring(0, campos[0].indexOf(" ")));
+                    acidente.setEndereco(campos[0].substring(campos[0].indexOf(" ") + 1));
+                    acidente.setDataHora(retornaDataHora(campos[2].trim().replaceAll(" ", "").replaceAll("\\D", "")));
+                    acidente.setDiaSemana(campos[3]);
+                    acidente.setFeridos(Integer.parseInt(campos[4]));
+                    acidente.setFatais(Integer.parseInt(campos[5]));
+                    acidente.setAutos(Integer.parseInt(campos[6]));
+                    acidente.setTaxis(Integer.parseInt(campos[7]));
+                    acidente.setLotacao(Integer.parseInt(campos[8]));
+                    acidente.setOnibusUrb(Integer.parseInt(campos[9]));
+                    acidente.setOnibusInt(Integer.parseInt(campos[10]));
+                    acidente.setCaminhao(Integer.parseInt(campos[11]));
+                    acidente.setMoto(Integer.parseInt(campos[12]));
+                    acidente.setCarroca(Integer.parseInt(campos[13]));
+                    acidente.setBicileta(Integer.parseInt(campos[14]));
+                    acidente.setTempo(campos[15]);
+                    acidente.setTurno(campos[16]);
+                    acidente.setRegiao(campos[17]);
+                    acidentes.add(acidente);
+                }
             }
-            else if(dataHora.length() == 8){
-                acidente.setDataHora(LocalDateTime.of(
-                    Integer.parseInt(campos[2].substring(0,4)),
-                    Integer.parseInt(campos[2].substring(4,6)),
-                    Integer.parseInt(campos[2].substring(6,8)),
-                    00,
-                    00)
-                );
-            }
-            else{
-                System.out.println(dataHora);
-            }
-            acidente.setDiaSemana(campos[3]);
-            acidente.setFeridos(Integer.parseInt(campos[4]));
-            acidente.setFatais(Integer.parseInt(campos[5]));
-            acidente.setAutos(Integer.parseInt(campos[6]));
-            acidente.setTaxis(Integer.parseInt(campos[7]));
-            acidente.setLotacao(Integer.parseInt(campos[8]));
-            acidente.setOnibusUrb(Integer.parseInt(campos[9]));
-            acidente.setOnibusInt(Integer.parseInt(campos[10]));
-            acidente.setCaminhao(Integer.parseInt(campos[11]));
-            acidente.setMoto(Integer.parseInt(campos[12]));
-            acidente.setCarroca(Integer.parseInt(campos[13]));
-            acidente.setBicileta(Integer.parseInt(campos[14]));
-            acidente.setTempo(campos[15]);
-            acidente.setTurno(campos[16]);
-            acidente.setRegiao(campos[17]);
-            acidentes.add(acidente);
         }
         return acidentes;
+    }
+
+    private static LocalDateTime retornaDataHora(String date){
+        String dataHora = date;
+
+        if(dataHora.length() != 12) {
+            dataHora = dataHora + "0".repeat(Math.max(0, 12 - dataHora.length()));
+        }
+
+        int ano = Integer.parseInt(dataHora.substring(0,4),10);
+        int mes = Integer.parseInt(dataHora.substring(4,6),10);
+        int dia = Integer.parseInt(dataHora.substring(6,8),10);
+        int hor = Integer.parseInt(dataHora.substring(8,10),10);
+        int min = Integer.parseInt(dataHora.substring(10),10);
+        if(mes < 1 || mes > 12){
+            System.out.println(dataHora);
+            return null;
+        }
+        else if(hor < 0 || hor > 23){
+            System.out.println(dataHora);
+            return null;
+        }
+        else if(min < 0 || min > 60){
+            System.out.println(dataHora);
+            return null;
+        }
+
+        return LocalDateTime.of(ano,mes,dia,hor,min);
     }
 }
