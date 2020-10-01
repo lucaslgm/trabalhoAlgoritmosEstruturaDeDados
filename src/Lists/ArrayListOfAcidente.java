@@ -144,37 +144,33 @@ public class ArrayListOfAcidente {
         return -1;
     }
 
-    public boolean addIncreasingOrder(Acidente element){
-        boolean bool = false;
-        if (count == data.length){
-            setCapacity(data.length * 2);
-        }
-        if (count==0) {
-            this.add(element);
-            bool = true;
-        }
-        else if (element.getDataHora().isBefore(data[0].getDataHora())) {
-            this.add(0,element);
-            bool = true;
-        }
-        else if (element.getDataHora().isAfter(data[count-1].getDataHora())) {
-            this.add(element);
-            bool = true;
-        }
-        else{
-            for(int i = 0; i < count; i++) {
-                if (data[i].getDataHora().isAfter(element.getDataHora())) {
-                    this.add(i, element);
-                    bool = true;
-                    break;
-                }
-                else if (data[i].getDataHora().isEqual(element.getDataHora())) {
-                    this.add(i+1, element);
-                    bool = true;
-                    break;
+    public void addIncreasingOrder(Acidente element){
+        if(element.getDataHora() != null){
+
+            if (count == data.length){
+                setCapacity(data.length * 2);
+            }
+            if (count==0) {
+                this.add(element);
+            }
+            else if (element.getDataHora().isBefore(data[0].getDataHora())) {
+                this.add(0,element);
+            }
+            else if (element.getDataHora().isAfter(data[count-1].getDataHora())) {
+                this.add(element);
+            }
+            else{
+                for(int i = 0; i < count; i++) {
+                    if (data[i].getDataHora().isAfter(element.getDataHora())) {
+                        this.add(i, element);
+                        break;
+                    }
+                    else if (data[i].getDataHora().isEqual(element.getDataHora())) {
+                        this.add(i+1, element);
+                        break;
+                    }
                 }
             }
         }
-        return bool;
     }
 }
