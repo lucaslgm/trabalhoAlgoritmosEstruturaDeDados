@@ -1,14 +1,17 @@
 package Entities;
 
-import Lists.ArrayListOfAcidente;
+import Lists.LinkedListOfAcidentes;
 
 public class Street {
     String nome;
-    ArrayListOfAcidente acidentes;
+    LinkedListOfAcidentes acidentes;
 
-    public Street(String nome, ArrayListOfAcidente acidentes) {
+    public Street(String nome, LinkedListOfAcidentes acidentes) {
         this.nome = nome;
         this.acidentes = acidentes;
+    }
+    public Street() {
+        this.acidentes = new LinkedListOfAcidentes();
     }
 
     public String getNome() {
@@ -19,11 +22,11 @@ public class Street {
         this.nome = nome;
     }
 
-    public ArrayListOfAcidente getAcidentes() {
+    public LinkedListOfAcidentes getAcidentes() {
         return acidentes;
     }
 
-    public void setAcidentes(ArrayListOfAcidente acidentes) {
+    public void setAcidentes(LinkedListOfAcidentes acidentes) {
         this.acidentes = acidentes;
     }
 }
