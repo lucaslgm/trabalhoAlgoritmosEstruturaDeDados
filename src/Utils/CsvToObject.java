@@ -30,36 +30,33 @@ public class CsvToObject {
         }
         return lines;
     }
-    public static List<Acidente> retornaAcidentes(String[] lines){
-        List<Acidente> acidentes = new ArrayList<>();
-        for (String line : lines) {
-            if(line != null) {
-                String[] campos = line.split(";");
-                if (campos[0].length() > 1) {
-                    Acidente acidente = new Acidente();
-                    acidente.setLogradouro(campos[0].substring(0, campos[0].indexOf(" ")));
-                    acidente.setEndereco(campos[0].substring(campos[0].indexOf(" ") + 1));
-                    acidente.setDataHora(retornaDataHora(campos[2].trim().replaceAll(" ", "").replaceAll("\\D", "")));
-                    acidente.setDiaSemana(campos[3]);
-                    acidente.setFeridos(Integer.parseInt(campos[4]));
-                    acidente.setFatais(Integer.parseInt(campos[5]));
-                    acidente.setAutos(Integer.parseInt(campos[6]));
-                    acidente.setTaxis(Integer.parseInt(campos[7]));
-                    acidente.setLotacao(Integer.parseInt(campos[8]));
-                    acidente.setOnibusUrb(Integer.parseInt(campos[9]));
-                    acidente.setOnibusInt(Integer.parseInt(campos[10]));
-                    acidente.setCaminhao(Integer.parseInt(campos[11]));
-                    acidente.setMoto(Integer.parseInt(campos[12]));
-                    acidente.setCarroca(Integer.parseInt(campos[13]));
-                    acidente.setBicileta(Integer.parseInt(campos[14]));
-                    acidente.setTempo(campos[15]);
-                    acidente.setTurno(campos[16]);
-                    acidente.setRegiao(campos[17]);
-                    acidentes.add(acidente);
-                }
+    public static Acidente retornaAcidente(String line){
+        if(line != null) {
+            Acidente acidente = new Acidente();
+            String[] campos = line.split(";");
+            if (campos[0].length() > 1) {
+                acidente.setLogradouro(campos[0].substring(0, campos[0].indexOf(" ")));
+                acidente.setEndereco(campos[0].substring(campos[0].indexOf(" ") + 1));
+                acidente.setDataHora(retornaDataHora(campos[2].trim().replaceAll(" ", "").replaceAll("\\D", "")));
+                acidente.setDiaSemana(campos[3]);
+                acidente.setFeridos(Integer.parseInt(campos[4]));
+                acidente.setFatais(Integer.parseInt(campos[5]));
+                acidente.setAutos(Integer.parseInt(campos[6]));
+                acidente.setTaxis(Integer.parseInt(campos[7]));
+                acidente.setLotacao(Integer.parseInt(campos[8]));
+                acidente.setOnibusUrb(Integer.parseInt(campos[9]));
+                acidente.setOnibusInt(Integer.parseInt(campos[10]));
+                acidente.setCaminhao(Integer.parseInt(campos[11]));
+                acidente.setMoto(Integer.parseInt(campos[12]));
+                acidente.setCarroca(Integer.parseInt(campos[13]));
+                acidente.setBicileta(Integer.parseInt(campos[14]));
+                acidente.setTempo(campos[15]);
+                acidente.setTurno(campos[16]);
+                acidente.setRegiao(campos[17]);
             }
+            return acidente;
         }
-        return acidentes;
+        return null;
     }
 
     private static LocalDateTime retornaDataHora(String date){
