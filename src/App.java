@@ -49,80 +49,58 @@ public class App {
 //        }
 
 
-        DoubleLinkedListOfStreets streets = new DoubleLinkedListOfStreets();
+//        DoubleLinkedListOfStreets streets = new DoubleLinkedListOfStreets();
+//        for(int i = 0; i <= 500; i++){
+//            if(CsvToObject.retornaAcidente(lines[i]) != null) {
+//                Acidente acidente = CsvToObject.retornaAcidente(lines[i]);
+//                if (streets.isEmpty()) {
+//                    streets.add(retNovaRua(acidente));
+//                }
+//                else {
+//                    int index = 0;
+//                    while (index < streets.size()){
+//                        String nome = acidente.getLogradouro().concat(" ").concat(acidente.getEndereco());
+//                        if (streets.get(index).getNome().equals(nome)) {
+//                            streets.get(index).getAcidentes().addIncreasingOrder(acidente);
+//                            index = 0;
+//                            break;
+//                        }
+//                        index++;
+//                    }
+//                    if(index == streets.size()){
+//                        streets.add(retNovaRua(acidente));
+//                    }
+//                }
+//            }
+//        }
+//
+//        int totalAcidentes = 0;
+//        int maior = 0;
+//        String rua = null;
+//        for(int i = 0; i < streets.size(); i++){
+//            System.out.println("LOCAL: " + streets.get(i).getNome());
+//            System.out.println("Nº ACIDENTES: " + streets.get(i).getAcidentes().size());
+//            totalAcidentes+=streets.get(i).getAcidentes().size();
+//            if(streets.get(i).getAcidentes().size() > maior){
+//                maior = streets.get(i).getAcidentes().size();
+//                rua = streets.get(i).getNome();
+//            }
+//        }
+//        int motos = 0;
+//        String diaSemana = null;
+//        if(streets.get("AV IPIRANGA") != null) {
+//            Street sAux = streets.get("AV IPIRANGA");
+//            motos = sAux.getAcidentes().getTotalAcidentesMotos();
+//            diaSemana = sAux.getAcidentes().getDiaSemanaMaisAcidentes();
+//        }
+//
+//        System.out.println("TOTAL DE ACIDENTES: "+ totalAcidentes);
+//        System.out.printf("RUA COM MAIS ACIDENTES: %s\nTOTAL: %d\n", rua, maior);
+//        System.out.println("TOTAL DE ACIDENTES COM MOTOS AV IPIRANGA: "+ motos);
+//        System.out.println("DIA DA SEMANA COM MAIS ACIDENTES AV IPIRANGA: "+ diaSemana);
 
-        for(int i = 0; i <= 50000; i++){
-            if(CsvToObject.retornaAcidente(lines[i]) != null) {
-                Acidente acidente = CsvToObject.retornaAcidente(lines[i]);
-                if (streets.isEmpty()) {
-                    streets.add(retNovaRua(acidente));
-                }
-                else {
-                    int index = 0;
-                    while (index < streets.size()){
-                        String nome = acidente.getLogradouro().concat(" ").concat(acidente.getEndereco());
-                        if (streets.get(index).getNome().equals(nome)) {
-                            streets.get(index).getAcidentes().addIncreasingOrder(acidente);
-                            index = 0;
-                            break;
-                        }
-                        index++;
-                    }
-                    if(index == streets.size()){
-                        streets.add(retNovaRua(acidente));
-                    }
-                }
-            }
-        }
+        testeContagemMotos_DiaSemana();
 
-        int totalAcidentes = 0;
-        int maior = 0;
-        String rua = "";
-        for(int i = 0; i < streets.size(); i++){
-            System.out.println("LOCAL: " + streets.get(i).getNome());
-            System.out.println("Nº ACIDENTES: " + streets.get(i).getAcidentes().size());
-            totalAcidentes+=streets.get(i).getAcidentes().size();
-            if(streets.get(i).getAcidentes().size() > maior){
-                maior = streets.get(i).getAcidentes().size();
-                rua = streets.get(i).getNome();
-            }
-        }
-        if(streets.get("AV IPIRANGA") != null){
-            Street sAux = streets.get("AV IPIRANGA");
-            int dom = 0;
-            int seg = 0;
-            int ter = 0;
-            int qua = 0;
-            int qui = 0;
-            int sex = 0;
-            int sab = 0;
-            for(int i = 0; i < sAux.getAcidentes().size(); i++){
-                if(sAux.getAcidentes().get(i).getDiaSemana().equals("DOMINGO")){
-                    dom++;
-                }
-                else if(sAux.getAcidentes().get(i).getDiaSemana().equals("SEGUNDA-FEIRA")){
-                    seg++;
-                }
-                else if(sAux.getAcidentes().get(i).getDiaSemana().equals("TERCA-FEIRA")){
-                    ter++;
-                }
-                else if(sAux.getAcidentes().get(i).getDiaSemana().equals("QUARTA-FEIRA")){
-                    qua++;
-                }
-                else if(sAux.getAcidentes().get(i).getDiaSemana().equals("QUINTA-FEIRA")){
-                    qui++;
-                }
-                else if(sAux.getAcidentes().get(i).getDiaSemana().equals("SEXTA-FEIRA")){
-                    sex++;
-                }
-                else if(sAux.getAcidentes().get(i).getDiaSemana().equals("SABADO")){
-                    sab++;
-                }
-            }
-            int dAux = 0;
-        }
-        System.out.println("TOTAL DE ACIDENTES: "+ totalAcidentes);
-        System.out.printf("RUA COM MAIS ACIDENTES: %s\nTOTAL: %d\n", rua, maior);
     }
 
     private static Street retNovaRua(Acidente acidente){
@@ -130,5 +108,37 @@ public class App {
         street.setNome(acidente.getLogradouro().concat(" ").concat(acidente.getEndereco()));
         street.getAcidentes().addIncreasingOrder(acidente);
         return street;
+    }
+
+    private static void testeContagemMotos_DiaSemana(){
+        Acidente ac1 = new Acidente();
+        ac1.setDiaSemana("DOMINGO");
+        ac1.setMoto(1);
+        Acidente ac2 = new Acidente();
+        ac2.setDiaSemana("DOMINGO");
+        ac2.setMoto(2);
+        Acidente ac3 = new Acidente();
+        ac3.setDiaSemana("SABADO");
+        ac3.setMoto(3);
+        Acidente ac4 = new Acidente();
+        ac4.setDiaSemana("DOMINGO");
+        ac4.setMoto(2);
+        Acidente ac5 = new Acidente();
+        ac5.setDiaSemana("SABADO");
+        ac5.setMoto(2);
+        Street ruaTeste = new Street();
+        ruaTeste.setNome("RUA TESTE");
+        LinkedListOfAcidentes listaTeste = new LinkedListOfAcidentes();
+        listaTeste.add(ac1);
+        listaTeste.add(ac2);
+        listaTeste.add(ac3);
+        listaTeste.add(ac4);
+        listaTeste.add(ac5);
+        ruaTeste.setAcidentes(listaTeste);
+        int moto = ruaTeste.getAcidentes().getTotalAcidentesMotos();
+        String dia = ruaTeste.getAcidentes().getDiaSemanaMaisAcidentes();
+
+        System.out.println("ACIDENTES DE MOTO: "+ moto);
+        System.out.println("SEMANA COM MAIS ACIDENTES: "+ dia);
     }
 }

@@ -10,6 +10,32 @@ public class DoubleLinkedListOfStreets {
     private Node trailer;
     // Contador do numero de elementos da lista.
     private int count;
+    // Referencia para uma posicao corrente na lista
+    private Node current;
+    // Inicializa o current na primeira posicao (para percorrer do inicio para o fim)
+    public void resetNext() {
+        current = header.next;
+    }
+    // Retorna o elemento da posicao corrente e faz current apontar para o proximo
+    public Street next() { //O(1)
+        if (current != trailer) {
+            Street street = current.element;
+            current = current.next;
+            return street;
+        }
+        return null;
+    }
+    public void resetPrev() {
+        current = trailer.prev;
+    }
+    public Street prev() { //O(1)
+        if (current != header) {
+            Street street = current.element;
+            current = current.prev;
+            return street;
+        }
+        return null;
+    }
 
     private class Node {
         public Street element;
@@ -29,23 +55,17 @@ public class DoubleLinkedListOfStreets {
         trailer.prev = header;
         count = 0;
     }
-    //TODO: TESTAR /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Adiciona um elemento ao final da lista
      * @param element elemento a ser adicionado ao final da lista
      */
     public void add(Street element) {
-        //TODO: Implementar este método
         Node n = new Node(element);
-        if(header.next == trailer){
-            header.next = n;
-            trailer.prev = n;
-        }
-        else{
-            trailer.prev.next = n;
-            trailer.prev = n;
-        }
+        n.next = trailer;
+        n.prev = trailer.prev;
+        n.prev.next = n;
+        trailer.prev = n;
         count++;
     }
 
@@ -60,31 +80,18 @@ public class DoubleLinkedListOfStreets {
         if (index < 0 || index > count ){
             throw new IndexOutOfBoundsException();
         }
-        //TODO: Implementar este método
-        Node n = new Node(element);
-        if (index == 0) {
-            if(count == 0){
-                header.next = n;
-                trailer.prev = n;
-            }
-            else{
-                header.next = n;
-                header.next.prev = n;
-            }
+        if(index == count) {
+            this.add(element);
         }
-        else if (index == count) {
-            trailer.prev.next = n;
-            trailer.prev = n;
+        else {
+            Node n = new Node(element);
+            Node aux = getNodeRef(index);
+            n.next = aux;
+            n.prev = aux.prev;
+            n.prev.next = n;
+            aux.prev = n;
+            count++;
         }
-        else{
-            Node nAux = header.next;
-            for (int i = 0; i < index-1; i++){
-                nAux = nAux.next;
-                n.next = nAux.next;
-                n.prev = nAux;
-            }
-        }
-        count++;
     }
 
     /**
@@ -93,34 +100,15 @@ public class DoubleLinkedListOfStreets {
      * @return true se a lista contem o elemento especificado
      */
     public boolean remove(Street element) {
-        // TODO:Implementar este método
-        if (count == 0) {
-            return false;
-        }
-        if(header.next.element.equals(element)){
-            if(count == 1){
-                header.next = trailer;
-                trailer.prev = header;
+        Node aux = header.next;
+        while (aux != trailer) {
+            if (aux.element.equals(element)) {
+                aux.prev.next = aux.next;
+                aux.next.prev = aux.prev;
                 count--;
                 return true;
             }
-        }
-        if(trailer.prev.element.equals(element)){
-            trailer.prev.prev.next = trailer;
-            trailer.prev = trailer.prev.prev;
-            count--;
-            return true;
-        }
-        else{
-            Node nAux = header.next;
-            while (nAux != trailer){
-                if(nAux.element.equals(element)){
-                    nAux.prev.next = nAux.next;
-                    nAux.next.prev = nAux.prev;
-                    count--;
-                    return true;
-                }
-            }
+            aux = aux.next;
         }
         return false;
     }
@@ -135,30 +123,11 @@ public class DoubleLinkedListOfStreets {
         if (index < 0 || index >= count) {
             throw new IndexOutOfBoundsException();
         }
-        // TODO: Implementar este método
-        Street eRemovido = null;
-
-        if(index == 0){
-            eRemovido = header.next.element;
-            header.next = header.next.next;
-            header.next.next.prev = header;
-        }
-        else if(index == count-1){
-            eRemovido = header.next.element;
-            trailer.prev.prev.next = trailer;
-            trailer.prev = trailer.prev.prev;
-        }
-        else{
-            Node nAux = header.next;
-            for (int i = 0; i < index; i++){
-                nAux = nAux.next;
-            }
-            eRemovido = nAux.element;
-            nAux.prev = nAux.next;
-            nAux.next = nAux.prev;
-        }
+        Node aux = getNodeRef(index);
+        aux.prev.next = aux.next;
+        aux.next.prev = aux.prev;
         count--;
-        return eRemovido;
+        return aux.element;
     }
 
     /**
@@ -167,7 +136,6 @@ public class DoubleLinkedListOfStreets {
      * @return true se a lista contém o elemento especificado
      */
     public boolean contains(Street element) {
-        // TODO:Implementar este método
         Node nAux = header.next;
         while (nAux != trailer){
             if (element.equals(nAux.element)){
@@ -184,7 +152,6 @@ public class DoubleLinkedListOfStreets {
      * @return true se a lista contém o elemento especificado
      */
     public boolean contains(String rua) {
-        // TODO:Implementar este método
         Node nAux = header.next;
         while (nAux != trailer){
             if (rua.equals(nAux.element.getNome())){
@@ -205,18 +172,8 @@ public class DoubleLinkedListOfStreets {
         if ((index < 0) || (index >= count)) {
             throw new IndexOutOfBoundsException();
         }
-        //TODO:Implementar este método
-        if(index == count-1){
-            return trailer.prev.element;
-        }
-
-        Node nAux = header.next;
-        int ind = 0;
-        while (ind < index){
-            nAux = nAux.next;
-            ind++;
-        }
-        return nAux.element;
+        Node aux = getNodeRef(index);
+        return aux.element;
     }
 
     /**
@@ -266,20 +223,9 @@ public class DoubleLinkedListOfStreets {
         if ((index < 0) || (index >= count)) {
             throw new IndexOutOfBoundsException();
         }
-        //TODO: Implementar este método
-
-        Street street = null;
-        if(index == count -1){
-            street = trailer.prev.element;
-            trailer.prev.element = element;
-            return street;
-        }
-        Node nAux = header.next;
-        for (int i = 0; i < index; i++) {
-            nAux = nAux.next;
-        }
-        street =nAux.element;
-        nAux.element = element;
+        Node aux = getNodeRef(index);
+        Street street = aux.element;
+        aux.element = element;
         return street;
     }
 
@@ -308,6 +254,25 @@ public class DoubleLinkedListOfStreets {
         return (count == 0);
     }
 
+    private Node getNodeRef(int index) {
+        Node aux = null;
+
+        if(index<count/2) { // percorre do inicio para o meio
+            aux = header.next; // faz aux apontar para o primeiro elemento da lista
+            for (int i=0; i<index; i++) {
+                aux = aux.next;
+            }
+        }
+        else { // percorre do fim para o meio
+            aux = trailer.prev;
+            for(int i=count-1; i>index; i--) {
+                aux = aux.prev;
+            }
+        }
+
+        return aux;
+    }
+
     @Override
     public String toString()
     {
@@ -321,6 +286,6 @@ public class DoubleLinkedListOfStreets {
         return s.toString();
     }
 
-    //TODO: IMPLEMENTAR MÉTODO COMPARADO STRING NOME
+    //TODO: IMPLEMENTAR MÉTODO COMPARANDO STRING NOME
     public void addIncreasingOrder(Acidente element){}
 }
