@@ -2,6 +2,8 @@ package Lists;
 
 import Entities.Acidente;
 
+import java.util.Arrays;
+
 public class LinkedListOfAcidentes {
     private class Node {
         public Acidente element;
@@ -78,37 +80,6 @@ public class LinkedListOfAcidentes {
             ant.next = n;
         }
         count++;
-    }
-    //TODO: TRATAR NULLPOINTEREXCEPTION
-    public void addIncreasingOrder(Acidente element){
-        if(element.getDataHora() != null){
-            if (count==0) {
-                this.add(element);
-            }
-            else if (element.getDataHora().isBefore(head.element.getDataHora())) {
-                this.add(0,element);
-            }
-            else if (element.getDataHora().isAfter(tail.element.getDataHora())) {
-                this.add(element);
-            }
-            else{
-                Node nAux = head.next;
-                for(int i = 1; i < count-1; i++) {
-                    if (nAux.element.getDataHora().isAfter(element.getDataHora())) {
-                        this.add(i, element);
-                        break;
-                    }
-                    else if (nAux.element.getDataHora().isEqual(element.getDataHora())) {
-                        this.add(i+1, element);
-                        break;
-                    }
-                    nAux = nAux.next;
-                }
-            }
-        }
-        else{
-            this.add(element);
-        }
     }
 
     public Acidente get(int index) { // O(n)
@@ -231,6 +202,126 @@ public class LinkedListOfAcidentes {
             aux = aux.next;
         }
         return false;
+    }
+
+    public int getTotalAcidentesMotos(){
+        int acidentes = 0;
+        int index = 0;
+        Node aux = head;
+
+        do {
+            acidentes += aux.element.getMoto();
+            aux = aux.next;
+            index++;
+        }while (aux != null);
+
+        return acidentes;
+    }
+
+    public String getDiaSemanaMaisAcidentes(){
+        int dom = 0;
+        int seg = 0;
+        int ter = 0;
+        int qua = 0;
+        int qui = 0;
+        int sex = 0;
+        int sab = 0;
+
+        String dia = null;
+        Node aux = head;
+
+        do {
+            switch (aux.element.getDiaSemana()) {
+                case "DOMINGO":
+                    dom++;
+                    break;
+                case "SEGUNDA-FEIRA":
+                    seg++;
+                    break;
+                case "TERCA-FEIRA":
+                    ter++;
+                    break;
+                case "QUARTA-FEIRA":
+                    qua++;
+                    break;
+                case "QUINTA-FEIRA":
+                    qui++;
+                    break;
+                case "SEXTA-FEIRA":
+                    sex++;
+                    break;
+                case "SABADO":
+                    sab++;
+                    break;
+            }
+            aux = aux.next;
+        } while (aux != null);
+
+        int[] diasSemana = new int[7];
+        diasSemana[0] = dom;
+        diasSemana[1] = seg;
+        diasSemana[2] = ter;
+        diasSemana[3] = qua;
+        diasSemana[4] = qui;
+        diasSemana[5] = sex;
+        diasSemana[6] = sab;
+        Arrays.sort(diasSemana);
+
+        if(diasSemana[6] == dom){
+            dia = "DOMINGO";
+        }
+        else if(diasSemana[6] == seg){
+            dia = "SEGUNDA-FEIRA";
+        }
+        else if(diasSemana[6] == ter){
+            dia = "TERCA-FEIRA";
+        }
+        else if(diasSemana[6] == qua){
+            dia = "QUARTA-FEIRA";
+        }
+        else if(diasSemana[6] == qui){
+            dia = "QUINTA-FEIRA";
+        }
+        else if(diasSemana[6] == sex){
+            dia = "SEXTA-FEIRA";
+        }
+        else if(diasSemana[6] == sab){
+            dia = "SABADO";
+        }
+
+        return dia;
+    }
+
+    //TODO: TRATAR NULLPOINTEREXCEPTION
+    public void addIncreasingOrder(Acidente element){
+        if(element.getDataHora() != null){
+            if (count==0) {
+                this.add(element);
+            }
+            else if (element.getDataHora().isBefore(head.element.getDataHora())) {
+                this.add(0,element);
+            }
+            else if (element.getDataHora().isAfter(tail.element.getDataHora())) {
+                this.add(element);
+            }
+            else{
+                Node nAux = head.next;
+                for(int i = 1; i < count-1; i++) {
+                    if (nAux.element.getDataHora().isAfter(element.getDataHora())) {
+                        this.add(i, element);
+                        break;
+                    }
+                    else if (nAux.element.getDataHora().isEqual(element.getDataHora())) {
+                        this.add(i+1, element);
+                        break;
+                    }
+                    nAux = nAux.next;
+                }
+            }
+        }
+        else{
+            this.add(element);
+        }
     }
 
     @Override
