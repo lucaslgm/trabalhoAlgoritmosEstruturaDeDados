@@ -29,4 +29,9 @@ public class Street {
     public void setAcidentes(LinkedListOfAcidentes acidentes) {
         this.acidentes = acidentes;
     }
+
+    public String toString(){
+        String s = nome + acidentes.toString();
+        return s;
+    }
 }

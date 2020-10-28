@@ -90,17 +90,16 @@ public class App {
                     break;
                 case 4:
                     int option = 0;
+                    streets.resetNext();
+                    Street aux = streets.next();
                     do {
-                        Street aux = new Street();
-                        if (option==0)
-                            aux = streets.get(1);
-                        else if (option==1)
-                            aux = streets.next();
+                        if (option==1)
+                            aux = streets.next2();
                         else if (option==2)
-                            aux = streets.prev();
+                            aux = streets.prev2();
 
-                        System.out.println(aux.getNome());
-                        System.out.println(aux.getAcidentes().toString());
+                        if (aux == null) System.out.println("Fim da lista.");
+                        else System.out.println(aux.toString());
                         System.out.print("\n1 - Next / ");
                         System.out.print("2 - Prev / ");
                         System.out.println("3 - Voltar");
