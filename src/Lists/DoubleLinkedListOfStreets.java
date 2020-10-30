@@ -25,6 +25,22 @@ public class DoubleLinkedListOfStreets {
         }
         return null;
     }
+    public Street next2() { //O(1)
+        if (current != trailer) {
+            current = current.next;
+            return current.element;
+        }
+        return null;
+    }
+    public Street prev2() { //O(1)
+        if (current != header) {
+            current = current.prev;
+            return current.element;
+        }
+        return null;
+    }
+
+
     public void resetPrev() {
         current = trailer.prev;
     }
@@ -284,6 +300,10 @@ public class DoubleLinkedListOfStreets {
             aux = aux.next;
         }
         return s.toString();
+    }
+
+    public Street getCurrent() {
+        return current.element;
     }
 
     //TODO: IMPLEMENTAR MÉTODO COMPARANDO STRING NOME
