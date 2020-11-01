@@ -294,33 +294,35 @@ public class LinkedListOfAcidentes {
 
     //TODO: TRATAR NULLPOINTEREXCEPTION
     public void addIncreasingOrder(Acidente element){
-        if(element.getDataHora() != null){
-            if (count==0) {
-                this.add(element);
-            }
-            else if (element.getDataHora().isBefore(head.element.getDataHora())) {
-                this.add(0,element);
-            }
-            else if (element.getDataHora().isAfter(tail.element.getDataHora())) {
-                this.add(element);
-            }
-            else{
-                Node nAux = head.next;
-                for(int i = 1; i < count-1; i++) {
-                    if (nAux.element.getDataHora().isAfter(element.getDataHora())) {
-                        this.add(i, element);
-                        break;
+        if (element != null){
+            if(element.getDataHora() != null){
+                if (count==0) {
+                    this.add(element);
+                }
+                else if (element.getDataHora().isBefore(head.element.getDataHora())) {
+                    this.add(0,element);
+                }
+                else if (element.getDataHora().isAfter(tail.element.getDataHora())) {
+                    this.add(element);
+                }
+                else{
+                    Node nAux = head.next;
+                    for(int i = 1; i < count-1; i++) {
+                        if (nAux.element.getDataHora().isAfter(element.getDataHora())) {
+                            this.add(i, element);
+                            break;
+                        }
+                        else if (nAux.element.getDataHora().isEqual(element.getDataHora())) {
+                            this.add(i+1, element);
+                            break;
+                        }
+                        nAux = nAux.next;
                     }
-                    else if (nAux.element.getDataHora().isEqual(element.getDataHora())) {
-                        this.add(i+1, element);
-                        break;
-                    }
-                    nAux = nAux.next;
                 }
             }
-        }
-        else{
-            this.add(element);
+            else{
+                this.add(element);
+            }
         }
     }
 
