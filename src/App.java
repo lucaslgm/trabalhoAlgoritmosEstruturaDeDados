@@ -5,6 +5,7 @@ import Lists.DoubleLinkedListOfStreets;
 import Lists.LinkedListOfAcidentes;
 import Utils.CsvToObject;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,6 +41,22 @@ public class App {
                         streets.add(retNovaRua(acidente));
                     }
                 }
+            }
+        }
+
+        for (int j=0; j<183; j++)
+        for (int i=0; i<streets.size()-1; i++){
+            Street aux = new Street();
+            Street aux2 = new Street();
+            String nomeAtual = streets.get(i).getNome();
+            aux = streets.get(i);
+            if (nomeAtual.compareToIgnoreCase(streets.get(i+1).getNome()) > 0){
+                aux = streets.get(i);
+                aux2 = streets.get(i+1);
+                streets.removeByIndex(i);
+                streets.add(i, aux2);
+                streets.removeByIndex(i+1);
+                streets.add(i+1, aux);
             }
         }
 
