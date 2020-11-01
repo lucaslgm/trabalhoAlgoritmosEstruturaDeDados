@@ -124,11 +124,6 @@ public class App {
                         option = input.nextInt();
                     }while (option != 3);
                     break;
-                case 9:
-                    for (int i=0; i<streets.size(); i++){
-                        System.out.println(streets.get(i).getNome());
-                    }
-                    break;
                 default:
                     break;
             }
