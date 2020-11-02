@@ -306,6 +306,35 @@ public class DoubleLinkedListOfStreets {
         return current.element;
     }
 
-    //TODO: IMPLEMENTAR MÉTODO COMPARANDO STRING NOME
-    public void addIncreasingOrder(Acidente element){}
+    public void addIncreasingOrder(Street element){
+        if (element!=null){
+            if (element.getNome()!=null){
+                if (count == 0){
+                    this.add(element);
+                }
+                else if (element.getNome().compareToIgnoreCase(header.element.getNome()) < 0){
+                    this.add(0, element);
+                }
+                else if (element.getNome().compareToIgnoreCase(trailer.element.getNome()) > 0){
+                    this.add(element);
+                }
+                else {
+                    Node nAux = header.next;
+                    for(int i = 1; i < count-1; i++) {
+                        if (nAux != null){
+                            if (element.getNome().compareToIgnoreCase(nAux.element.getNome()) > 0){
+                                Node nAuxProxim = nAux.next;
+                                if (nAuxProxim != null){
+                                    if (element.getNome().compareToIgnoreCase(nAuxProxim.element.getNome()) < 0){
+                                        this.add(i, element);
+                                    }
+                                }
+                            }
+                        }
+                        nAux = nAux.next;
+                    }
+                }
+            }
+        }
+    }
 }
