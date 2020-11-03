@@ -292,7 +292,6 @@ public class LinkedListOfAcidentes {
         return dia;
     }
 
-    //TODO: TRATAR NULLPOINTEREXCEPTION
     public void addIncreasingOrder(Acidente element){
         if (element != null){
             if(element.getDataHora() != null){
@@ -308,13 +307,15 @@ public class LinkedListOfAcidentes {
                 else{
                     Node nAux = head.next;
                     for(int i = 1; i < count-1; i++) {
-                        if (nAux.element.getDataHora().isAfter(element.getDataHora())) {
-                            this.add(i, element);
-                            break;
-                        }
-                        else if (nAux.element.getDataHora().isEqual(element.getDataHora())) {
-                            this.add(i+1, element);
-                            break;
+                        if (nAux != null){
+                            if (nAux.element.getDataHora().isAfter(element.getDataHora())) {
+                                this.add(i, element);
+                                break;
+                            }
+                            else if (nAux.element.getDataHora().isEqual(element.getDataHora())) {
+                                this.add(i+1, element);
+                                break;
+                            }
                         }
                         nAux = nAux.next;
                     }
