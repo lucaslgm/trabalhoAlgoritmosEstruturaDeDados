@@ -209,6 +209,17 @@ public class DoubleLinkedListOfStreets {
         return null;
     }
 
+    public Street getContains(String rua) {
+        Node nAux = header.next;
+        while (nAux != trailer){
+            if (nAux.element.getNome().contains(rua)){
+                return nAux.element;
+            }
+            nAux = nAux.next;
+        }
+        return null;
+    }
+
     /**
      * Esvazia a lista
      */

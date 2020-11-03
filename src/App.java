@@ -63,7 +63,7 @@ public class App {
         int opcao;
         do {
             System.out.println("\n\n1 - Rua com mais acidentes\n" +
-                    "2 - Identificar dia da semana com mais acidentes para um rua\n" +
+                    "2 - Identificar dia da semana com mais acidentes para uma rua\n" +
                     "3 - Total de acidentes envolvendo moto\n" +
                     "4 - Navegar pelos acidentes\n" +
                     "5 - Sair");
@@ -85,11 +85,16 @@ public class App {
                     holdResult();
                     break;
                 case 2:
-                    System.out.print("\nNome da Rua: ");
-                    String nomeRua = inputStr.nextLine();
+                    String nomeRua = null;
+                    do {
+                        System.out.print("\nNome da Rua: ");
+                        nomeRua = inputStr.nextLine();
+                        if (nomeRua.length()<4)
+                            System.out.println("Tamanho do nome inválido. Escreva outra rua.");
+                    } while (nomeRua.length()<4);
                     String diaSemana = null;
-                    if(streets.get(nomeRua.toUpperCase()) != null) {
-                        Street sAux = streets.get(nomeRua.toUpperCase());
+                    if(streets.getContains(nomeRua.toUpperCase()) != null) {
+                        Street sAux = streets.getContains(nomeRua.toUpperCase());
                         diaSemana = sAux.getAcidentes().getDiaSemanaMaisAcidentes();
                         System.out.println("DIA DA SEMANA COM MAIS ACIDENTES: "+ diaSemana);
                     }
